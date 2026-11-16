@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>วงดนตรีที่ฉันชอบ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #12343b;
+    --bg: #f1eef6;
+    --paper: #ffffff;
+    --rock: #c2412d;
+    --pop: #d6458b;
+    --indie: #2f8f83;
+    --muted: #4f6b70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Sarabun", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* Header */
+  header {
+    background: var(--ink);
+    color: #fff;
+    text-align: center;
+    padding: 56px 20px 48px;
+  }
+  header h1 {
+    font-family: "Mitr", sans-serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    letter-spacing: .5px;
+  }
+  header p {
+    max-width: 520px;
+    margin: 12px auto 0;
+    color: #bcd6da;
+    font-size: 1.05rem;
+  }
+
+  /* Filter buttons */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 28px 16px 8px;
+  }
+  .filters button {
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px 22px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    transition: transform .2s, background .2s, color .2s;
+  }
+  .filters button:hover { transform: translateY(-3px); background: #fff; }
+  .filters button:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+  .filters button.active { background: var(--ink); color: #fff; }
+
+  .count { text-align: center; color: var(--muted); padding: 8px 16px 0; }
+
+  /* Gallery grid */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 20px 56px;
+  }
+  .card {
+    background: var(--paper);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(18, 52, 59, .12);
+    transition: transform .25s, box-shadow .25s;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(18, 52, 59, .22); }
+  .card.hide { display: none; }
+
+  .thumb {
+    height: 150px;
+    display: grid;
+    place-items: center;
+    font-size: 3.6rem;
+    transition: font-size .25s;
+  }
+  .card:hover .thumb { font-size: 4.2rem; }
+  .rock .thumb  { background: linear-gradient(135deg, #f1a08f, var(--rock)); }
+  .pop .thumb   { background: linear-gradient(135deg, #f4a8cb, var(--pop)); }
+  .indie .thumb { background: linear-gradient(135deg, #9fd8cf, var(--indie)); }
+
+  .info { padding: 16px 18px 20px; }
+  .tag {
+    display: inline-block;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #fff;
+    padding: 2px 12px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .rock .tag { background: var(--rock); }
+  .pop .tag { background: var(--pop); }
+  .indie .tag { background: var(--indie); }
+  .info h2 { font-family: "Mitr", sans-serif; font-weight: 500; font-size: 1.25rem; }
+  .info p { color: var(--muted); margin-top: 4px; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: .9rem; }
+
+  @media (max-width: 480px) {
+    header { padding: 40px 16px 36px; }
+    .gallery { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>วงดนตรีที่ฉันชอบ</h1>
+  <p>รวมวงดนตรีไทยที่ฟังบ่อย เลือกดูตามแนวเพลงได้เลย</p>
+</header>
+
+<nav class="filters" aria-label="กรองหมวดหมู่">
+  <button class="active" data-filter="all">ทั้งหมด</button>
+  <button data-filter="rock">ร็อก</button>
+  <button data-filter="pop">ป๊อป</button>
+  <button data-filter="indie">อินดี้</button>
+</nav>
+<p class="count" id="count" aria-live="polite"></p>
+
+<main class="gallery">
+  <article class="card rock" data-category="rock">
+    <div class="thumb" role="img" aria-label="ร็อก">🎸</div>
+    <div class="info">
+      <span class="tag">ร็อก</span>
+      <h2>Bodyslam</h2>
+      <p>วงร็อกที่โดดเด่นด้วยเสียงร้องทรงพลังและเนื้อเพลงตรงไปตรงมา</p>
+    </div>
+  </article>
+
+  <article class="card rock" data-category="rock">
+    <div class="thumb" role="img" aria-label="ร็อก">🥁</div>
+    <div class="info">
+      <span class="tag">ร็อก</span>
+      <h2>Slot Machine</h2>
+      <p>วงร็อกรุ่นใหญ่ของไทย มีเสียงกีตาร์หนักแน่น</p>
+    </div>
+  </article>
+
+  <article class="card rock" data-category="rock">
+    <div class="thumb" role="img" aria-label="ร็อก">🤘</div>
+    <div class="info">
+      <span class="tag">ร็อก</span>
+      <h2>Silly Fools</h2>
+      <p>วงร็อกจังหวะสนุก ฟังแล้วอยากโยกตาม</p>
+    </div>
+  </article>
+
+  <article class="card pop" data-category="pop">
+    <div class="thumb" role="img" aria-label="ป๊อป">🎤</div>
+    <div class="info">
+      <span class="tag">ป๊อป</span>
+      <h2>Potato</h2>
+      <p>วงป๊อปร็อกที่ฟังง่าย ทำนองติดหู</p>
+    </div>
+  </article>
+
+  <article class="card pop" data-category="pop">
+    <div class="thumb" role="img" aria-label="ป๊อป">🎹</div>
+    <div class="info">
+      <span class="tag">ป๊อป</span>
+      <h2>Cocktail</h2>
+      <p>วงป๊อปที่มีเพลงรักจังหวะนุ่มนวล</p>
+    </div>
+  </article>
+
+  <article class="card pop" data-category="pop">
+    <div class="thumb" role="img" aria-label="ป๊อป">🎶</div>
+    <div class="info">
+      <span class="tag">ป๊อป</span>
+      <h2>Scrubb</h2>
+      <p>วงป๊อปร็อกเสียงกีตาร์ใส ฟังสบาย</p>
+    </div>
+  </article>
+
+  <article class="card indie" data-category="indie">
+    <div class="thumb" role="img" aria-label="อินดี้">🎧</div>
+    <div class="info">
+      <span class="tag">อินดี้</span>
+      <h2>Tilly Birds</h2>
+      <p>วงอินดี้ที่ให้บรรยากาศผ่อนคลาย เหมาะกับการนั่งฟังเงียบ ๆ</p>
+    </div>
+  </article>
+
+  <article class="card indie" data-category="indie">
+    <div class="thumb" role="img" aria-label="อินดี้">🌿</div>
+    <div class="info">
+      <span class="tag">อินดี้</span>
+      <h2>Polycat</h2>
+      <p>วงอินดี้ป๊อปเสียงสดใส จังหวะเบา ๆ</p>
+    </div>
+  </article>
+
+  <article class="card indie" data-category="indie">
+    <div class="thumb" role="img" aria-label="อินดี้">☀️</div>
+    <div class="info">
+      <span class="tag">อินดี้</span>
+      <h2>Getsunova</h2>
+      <p>วงอินดี้ป๊อปที่เนื้อเพลงอบอุ่นและเป็นกันเอง</p>
+    </div>
+  </article>
+
+</main>
+
+<footer>ทำโดยนักเรียน · โปรเจกต์เว็บไซต์หน้าเดียว</footer>
+
+<script>
+  const buttons = document.querySelectorAll(".filters button");
+  const cards = document.querySelectorAll(".card");
+  const count = document.getElementById("count");
+
+  function applyFilter(category) {
+    let shown = 0;
+    cards.forEach(card => {
+      const match = category === "all" || card.dataset.category === category;
+      card.classList.toggle("hide", !match);
+      if (match) shown++;
+    });
+    count.textContent = "แสดง " + shown + " วง";
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      applyFilter(btn.dataset.filter);
+    });
+  });
+
+  applyFilter("all");
+</script>
+</body>
+</html>
